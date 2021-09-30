@@ -69,10 +69,6 @@ exports.deleteCustomer = async (req, res) => {
       return res.status(500).send({
         message: err.message || "Error occured, Customer not deleted",
       });
-    const response = {
-      message: "Customer successfully deleted!",
-      id: customer.id,
-    };
-    return res.status(200).send(response);
+    return res.status(200).send("Customer successfully deleted!");
   });
 };
