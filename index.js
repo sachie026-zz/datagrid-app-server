@@ -13,12 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 app.use(cors());
 
+// Mongoose db connections
 let db = mongoClient.connectMongooseServer();
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+// Add CORS handling for local and frontend app access
 let corsOptionsDelegate = corsDelegate;
 
-//Adding route for customer module
+// Add routes for modules
 const customersRoutes = require("./routes/customers.routes");
 app.use("/v1/", cors(corsOptionsDelegate), customersRoutes);
 
