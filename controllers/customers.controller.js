@@ -19,13 +19,21 @@ exports.create = async (req, res) => {
 
 exports.findAll = (req, res) => {
   const { pageNumber, limit } = req.query;
+  let totalCustomers = null;
+
+  Customer.estimatedDocumentCount()
+    .then((count) => (totalCustomers = count))
+    .catch((err) => {
+      console.log("err while retrieving the total count: ", err);
+      totalCustomers = 0;
+    });
 
   Customer.find()
     .skip((parseInt(pageNumber) - 1) * parseInt(limit))
     .limit(parseInt(limit))
     .sort({ joined_at: -1 })
     .then((customers) => {
-      res.send(customers);
+      res.send({ data: customers, totalCount: totalCustomers });
     })
     .catch((err) => {
       res.status(500).send({
