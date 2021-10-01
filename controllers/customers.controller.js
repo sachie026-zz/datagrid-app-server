@@ -17,11 +17,11 @@ exports.create = async (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
   const { pageNumber, limit } = req.query;
   let totalCustomers = null;
 
-  Customer.estimatedDocumentCount()
+  await Customer.estimatedDocumentCount()
     .then((count) => (totalCustomers = count))
     .catch((err) => {
       console.log("err while retrieving the total count: ", err);
